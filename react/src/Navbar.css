@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #001233;
+    color: white;
+  }
+  button{
+    background-color: #BCE8F3;
+    color: #001233 ;
+    height: 30px,auto;
+ }
