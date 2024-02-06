@@ -1,18 +1,19 @@
-// src/App.jsx
+// App.js
 import React from 'react';
-
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Form from './Components/Register';
+import BookList from './Components/BookList';
 import Navbar from './Navbar';
-import Form from './Components/Form'; // Adjust the path based on your project structure
 
 const App = () => {
   return (
     <div>
-       <Navbar /> 
+    
  <Routes>
          
-      
-          <Route path="/form" element={<Form/>} />
+        <Route exact path="/" element={<BookList/>} />
+        <Route path="/Register" element={<Form/>} />
+
      
      
     </Routes>

@@ -8,12 +8,12 @@ const Navbar = () => {
   return (
     <nav>
       <div className="logo-container">
-        <h1>Kalvium Books</h1>
+        <h1>
+          <Link to="/">Kalvium Books</Link>  </h1>
       </div>
       <Search />
       <div className="nav-links">
-        {/* Add other navigation links or components as needed */}
-        <Link to="/form">
+        <Link to="/Register">
           <button className="nav-button">Register</button>
         </Link>
       </div>
@@ -22,3 +22,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+ 

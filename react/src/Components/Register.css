@@ -1,7 +1,8 @@
+/* register.css */
+
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-
-.form-container {
+.register-container {
   width: 360px;
   background-color: white;
   margin: auto;
@@ -31,14 +32,14 @@
   font-family: "Roboto", sans-serif;
 }
 
-span {
+.error-message {
   font-family: "Roboto", sans-serif;
   font-size: 14px;
   color: red;
   margin-bottom: 15px;
 }
 
-input {
+.input-field {
   background: #f2f2f2;
 }
 
@@ -47,6 +48,6 @@ input {
   border: 2px solid #ffa4a4;
 }
 
-button:disabled {
+.disabled-button {
   cursor: default;
 }

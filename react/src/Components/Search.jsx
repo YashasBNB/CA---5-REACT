@@ -1,32 +1,11 @@
-// Search.jsx
-import React, { useState } from 'react';
+import React from "react";
+import "./Search.css"
 
-const Search = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    console.log('Search Query:', searchQuery);
-    // Add logic for handling the search query as needed
-  };
-
-  return (
-    <header>
-      <form onSubmit={handleFormSubmit}>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
-        <button type="submit">Search</button>
-      </form>
-    </header>
-  );
-};
-
-export default Search;
+export default function Search(props){
+  return(
+    <div className="search">
+      <h3>Search Bar</h3>
+      <input onChange={e=>{props.handleSearch(e)}} className="input-type" type="search"></input>
+    </div>
+  )
+}

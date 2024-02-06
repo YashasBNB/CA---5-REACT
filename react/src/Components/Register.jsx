@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import "./Form.css";
+import "./Register.css";
+import Navbar from '../Navbar';
 
 export default function Form() {
   const [field, setField] = useState({
     firstName: "",
     email: "",
     password: "",
+    confirmPassword: "", // New field for password confirmation
   });
 
   const [submitted, setSubmit] = useState(false);
@@ -13,11 +15,21 @@ export default function Form() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (field.firstName && field.email && field.password) setValidation(true);
+    if (field.firstName && field.email && field.password && field.confirmPassword) {
+      // Add password matching validation
+      if (field.password === field.confirmPassword) {
+        setValidation(true);
+      } else {
+        setValidation(false);
+      }
+    }
     setSubmit(true);
   };
 
   return (
+  <div>
+     <Navbar/>
+
     <div className="form-container">
       <form className="register-form" onSubmit={handleSubmit}>
         {submitted && validate ? (
@@ -35,10 +47,7 @@ export default function Form() {
             setField({ ...field, firstName: e.target.value });
           }}
         />
-
-        {submitted && !field.firstName ? (
-          <span>Please enter your Name</span>
-        ) : null}
+        {submitted && !field.firstName ? <span>Please enter your Name</span> : null}
 
         <input
           id="email"
@@ -51,10 +60,7 @@ export default function Form() {
             setField({ ...field, email: e.target.value });
           }}
         />
-
-        {submitted && !field.email ? (
-          <span>Please enter your email</span>
-        ) : null}
+        {submitted && !field.email ? <span>Please enter your email</span> : null}
 
         <input
           id="password"
@@ -67,9 +73,21 @@ export default function Form() {
             setField({ ...field, password: e.target.value });
           }}
         />
+        {submitted && !field.password ? <span>Please enter your password</span> : null}
 
-        {submitted && !field.password ? (
-          <span>Please enter your password</span>
+        <input
+          id="confirm-password"
+          className="form-field"
+          type="password"
+          placeholder="Confirm Password"
+          name="confirmPassword"
+          value={field.confirmPassword}
+          onChange={(e) => {
+            setField({ ...field, confirmPassword: e.target.value });
+          }}
+        />
+        {submitted && field.password !== field.confirmPassword ? (
+          <span>Passwords do not match</span>
         ) : null}
 
         <button className="form-field" type="submit">
@@ -77,5 +95,6 @@ export default function Form() {
         </button>
       </form>
     </div>
+  </div>
   );
 }
