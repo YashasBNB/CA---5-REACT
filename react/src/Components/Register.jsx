@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Register.css";
-import Navbar from '../Navbar';
 
 export default function Form() {
   const [field, setField] = useState({
@@ -18,7 +17,12 @@ export default function Form() {
     if (field.firstName && field.email && field.password && field.confirmPassword) {
       // Add password matching validation
       if (field.password === field.confirmPassword) {
-        setValidation(true);
+        // Add email format validation
+        if (validateEmail(field.email)) {
+          setValidation(true);
+        } else {
+          setValidation(false);
+        }
       } else {
         setValidation(false);
       }
@@ -26,75 +30,82 @@ export default function Form() {
     setSubmit(true);
   };
 
+  // Email validation function
+  const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
   return (
-  <div>
-     <Navbar/>
+    <div>
+      <div className="form-container">
+        <form className="register-form" onSubmit={handleSubmit}>
+          {submitted && validate ? (
+            <div className="success-message">Registration successful!</div>
+          ) : null}
 
-    <div className="form-container">
-      <form className="register-form" onSubmit={handleSubmit}>
-        {submitted && validate ? (
-          <div className="success-message">Registration successful!</div>
-        ) : null}
+          <input
+            id="first-name"
+            className="form-field"
+            type="text"
+            placeholder="First Name"
+            name="firstName"
+            value={field.firstName}
+            onChange={(e) => {
+              setField({ ...field, firstName: e.target.value });
+            }}
+          />
+          {submitted && !field.firstName ? <span>Please enter your Name</span> : null}
 
-        <input
-          id="first-name"
-          className="form-field"
-          type="text"
-          placeholder="First Name"
-          name="firstName"
-          value={field.firstName}
-          onChange={(e) => {
-            setField({ ...field, firstName: e.target.value });
-          }}
-        />
-        {submitted && !field.firstName ? <span>Please enter your Name</span> : null}
+          <input
+            id="email"
+            className="form-field"
+            type="text"
+            placeholder="Email"
+            name="email"
+            value={field.email}
+            onChange={(e) => {
+              setField({ ...field, email: e.target.value });
+            }}
+          />
+          {submitted && !field.email ? <span>Please enter your email</span> : null}
+          {submitted && field.email && !validateEmail(field.email) ? (
+            <span>Please enter a valid email</span>
+          ) : null}
 
-        <input
-          id="email"
-          className="form-field"
-          type="text"
-          placeholder="Email"
-          name="email"
-          value={field.email}
-          onChange={(e) => {
-            setField({ ...field, email: e.target.value });
-          }}
-        />
-        {submitted && !field.email ? <span>Please enter your email</span> : null}
+          <input
+            id="password"
+            className="form-field"
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={field.password}
+            onChange={(e) => {
+              setField({ ...field, password: e.target.value });
+            }}
+          />
+          {submitted && !field.password ? <span>Please enter your password</span> : null}
 
-        <input
-          id="password"
-          className="form-field"
-          type="password"
-          placeholder="Password"
-          name="password"
-          value={field.password}
-          onChange={(e) => {
-            setField({ ...field, password: e.target.value });
-          }}
-        />
-        {submitted && !field.password ? <span>Please enter your password</span> : null}
+          <input
+            id="confirm-password"
+            className="form-field"
+            type="password"
+            placeholder="Confirm Password"
+            name="confirmPassword"
+            value={field.confirmPassword}
+            onChange={(e) => {
+              setField({ ...field, confirmPassword: e.target.value });
+            }}
+          />
+          {submitted && field.password !== field.confirmPassword ? (
+            <span>Passwords do not match</span>
+          ) : null}
 
-        <input
-          id="confirm-password"
-          className="form-field"
-          type="password"
-          placeholder="Confirm Password"
-          name="confirmPassword"
-          value={field.confirmPassword}
-          onChange={(e) => {
-            setField({ ...field, confirmPassword: e.target.value });
-          }}
-        />
-        {submitted && field.password !== field.confirmPassword ? (
-          <span>Passwords do not match</span>
-        ) : null}
-
-        <button className="form-field" type="submit">
-          Register
-        </button>
-      </form>
+          <button className="form-field" type="submit">
+            Register
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
   );
 }

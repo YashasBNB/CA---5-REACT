@@ -1,59 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { fetchBooks } from './Api';
-import Navbar from '../Navbar';
+import React from 'react';
+import './BookList.css';
 
-const BookList = () => {
-  const [books, setBooks] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+const truncateText = (text, maxWordsPerLine) => {
+  const words = text.split(' ');
+  const lines = [];
+  for (let i = 0; i < words.length; i += maxWordsPerLine) {
+    lines.push(words.slice(i, i + maxWordsPerLine).join(' '));
+  }
+  return lines.join('<br />');
+};
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const booksData = await fetchBooks();
-        setBooks(booksData);
-      } catch (error) {
-        // Handle error if needed
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const filteredBooks = books.filter(book =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const renderBookDetails = (book) => {
-    switch (book.genre) {
-      case 'Fiction':
-        return <p>This is a fiction book.</p>;
-      case 'Non-fiction':
-        return <p>This is a non-fiction book.</p>;
-      // Add more cases as needed
-      default:
-        return <p>No genre information available.</p>;
-    }
-  };
-
+const BooksList = ({ books }) => {
   return (
-    <div>
-        <Navbar/>
-      <input
-        type="text"
-        placeholder="Search books"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <ul>
-        {filteredBooks.map((book) => (
-          <li key={book.id}>
-            <div>{book.title}</div>
-            {renderBookDetails(book)}
-          </li>
-        ))}
-      </ul>
+    <div className="books-grid">
+      {books.map(book => (
+        <div key={book.id} className="book-item">
+          <img src={book.imageLinks.thumbnail} alt={book.title} />
+          <p dangerouslySetInnerHTML={{ __html: truncateText(book.title, 3) }} />
+          <p dangerouslySetInnerHTML={{ __html: truncateText(book.authors.join(', '), 3) }} />
+          <p className='free'>Free</p>
+          <p></p>
+        </div>
+      ))}
     </div>
   );
 };
 
-export default BookList;
+export default BooksList;
